@@ -45,5 +45,6 @@ class App(tk.Frame):
 if __name__ == "__main__":
     env_file_path = r"C:\Users\NinjaPC\Downloads\.env"
     root = tk.Tk()
+    root.geometry("+{}+{}".format(root.winfo_screenwidth() // 2 - 200, root.winfo_screenheight() // 2 - 150))
     app = App(master=root, env_file_path=env_file_path)
     app.mainloop()

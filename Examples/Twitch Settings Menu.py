@@ -79,5 +79,6 @@ env_file_updater.update(["SACRIFICE_DURATION"], "300")
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.geometry("+{}+{}".format(root.winfo_screenwidth() // 2 - 200, root.winfo_screenheight() // 2 - 150))
     app = App(master=root, env_file_path=env_dir)
     app.mainloop()

@@ -19,7 +19,7 @@ class App(tk.Tk):
         self.icon_path = icon_path
         self.bg_path = bg_path
         self.title("Jak and Daxter Crowd Control Launcher")
-        self.geometry("400x300")
+        self.geometry("400x300+{}+{}".format(self.winfo_screenwidth() // 2 - 200, self.winfo_screenheight() // 2 - 150))
         self.resizable(False, False)
         self.configure(background='white')
         self.state = "normal"  # keep track of the current state of the window

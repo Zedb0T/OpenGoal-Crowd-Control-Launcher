@@ -11,6 +11,7 @@ class App(tk.Frame):
         self.grid()
         self.create_widgets()
         master.title("Command Cooldowns")
+        
 
     def create_widgets(self):
         self.entries = []
@@ -66,5 +67,6 @@ env_dir = os.path.join(parent_dir, "env", "command_cooldowns.env")
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.geometry("+{}+{}".format(root.winfo_screenwidth() // 2 - 200, root.winfo_screenheight() // 2 - 150))
     app = App(master=root, env_file_path=env_dir)
     app.mainloop()
