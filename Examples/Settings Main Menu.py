@@ -27,10 +27,16 @@ class App(tk.Frame):
 
         self.button4 = tk.Button(self, text="Command Durations", command=lambda: self.run_script("Command Durations Menu.py"), width=20, font=font)
         self.button4.grid(row=1, column=1, padx=5, pady=5)
+        
+        self.button5 = tk.Button(self, text="Exit", command=lambda: self.exit_program(), width=10, font=font)
+        self.button5.grid(row=2, column=1, padx=5, pady=5)
 
 
     def run_script(self, script_path):
         subprocess.Popen(["python", script_path])
+        
+    def exit_program(self):
+        self.master.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()
