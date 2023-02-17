@@ -13,7 +13,7 @@ def get_path(filename):
         return filename
         
 class App(tk.Tk):
-
+    
     def __init__(self, icon_path, bg_path):
         super().__init__()
         self.icon_path = icon_path
@@ -22,7 +22,8 @@ class App(tk.Tk):
         self.geometry("400x300")
         self.resizable(False, False)
         self.configure(background='white')
-        
+        self.state = "normal"  # keep track of the current state of the window
+
         # Set the window icon
         self.icon = ImageTk.PhotoImage(Image.open(self.icon_path))
         self.tk.call('wm', 'iconphoto', self._w, self.icon)
@@ -40,12 +41,44 @@ class App(tk.Tk):
         self.button3 = ttk.Button(self, text="Exit", command=self.run_script3, width=15)
         self.button3.place(relx=0.5, rely=0.65, anchor="center")
 
+        # Bind the F12 key to the toggle_fullscreen method
+        self.bind("<F12>", self.toggle_fullscreen)
+
+    def toggle_fullscreen(self, event=None):
+        if self.state == "normal":
+            # Save the original size and position of the window
+            self.normal_geometry = self.geometry()
+
+            # Resize the window to fill the screen
+            self.state = "fullscreen"
+            self.attributes("-fullscreen", True)
+
+            # Resize the background image to fill the screen
+            screen_width = self.winfo_screenwidth()
+            screen_height = self.winfo_screenheight()
+            bg_image = Image.open(self.bg_path).resize((screen_width, screen_height), Image.Resampling.LANCZOS)
+            self.bg_image = ImageTk.PhotoImage(bg_image)
+            self.bg_label.config(image=self.bg_image)
+        else:
+            # Restore the original size and position of the window
+            self.state = "normal"
+            self.attributes("-fullscreen", False)
+            self.geometry(self.normal_geometry)
+
+            # Resize the background image to fit the original size of the window
+            bg_image = Image.open(self.bg_path).resize((800, 450), Image.Resampling.LANCZOS)
+            self.bg_image = ImageTk.PhotoImage(bg_image)
+            self.bg_label.config(image=self.bg_image)
+
+
     def run_script1(self):
         subprocess.run(["python", "path/to/script1.py"])
         #print(bg_path)
 
     def run_script2(self):
+        self.destroy()
         subprocess.run(["python", "Settings Main Menu.py"])
+        
 
     def run_script3(self):
         self.destroy()

@@ -2,6 +2,7 @@ import tkinter as tk
 import os
 from dotenv import dotenv_values
 from EnvFileUpdater import EnvFileUpdater
+import subprocess
 
 
 class App(tk.Frame):
@@ -56,9 +57,11 @@ class App(tk.Frame):
     def save_and_exit(self):
        self.save()
        self.master.destroy()
+       subprocess.run(["python", "Settings Main Menu.py"])
        
     def exit_program(self):
         self.master.destroy()
+        subprocess.run(["python", "Settings Main Menu.py"])
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))

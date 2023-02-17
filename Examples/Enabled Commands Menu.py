@@ -1,7 +1,7 @@
 import os
 import tkinter as tk
 from dotenv import dotenv_values
-
+import subprocess
 
 class App(tk.Frame):
     def __init__(self, master=None, env_file_path=None):
@@ -54,11 +54,13 @@ class App(tk.Frame):
                 f.write(f"{key}={value}\n")
 
     def save_and_exit(self):
-        self.save()
-        self.master.destroy()
-        
+       self.save()
+       self.master.destroy()
+       subprocess.run(["python", "Settings Main Menu.py"])
+       
     def exit_program(self):
         self.master.destroy()
+        subprocess.run(["python", "Settings Main Menu.py"])
         
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
