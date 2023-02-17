@@ -1,6 +1,7 @@
 import os
 import tkinter as tk
 from dotenv import dotenv_values
+from EnvFileUpdater import EnvFileUpdater
 
 
 class App(tk.Frame):
@@ -62,6 +63,42 @@ class App(tk.Frame):
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
 env_dir = os.path.join(parent_dir, "env", "command_durations.env")
+
+#Add fields if they do not exist
+env_file_updater = EnvFileUpdater(env_dir)
+env_file_updater.update(["ACTIVATE_MSG"], "#t")
+env_file_updater.update(["protect_dur"], "60")
+env_file_updater.update(["superjump_dur"], "60")
+env_file_updater.update(["noboosteds_dur"], "180")
+env_file_updater.update(["superboosted_dur"], "180")
+env_file_updater.update(["fastjak_dur"], "90")
+env_file_updater.update(["slowjak_dur"], "45")
+env_file_updater.update(["slippery_dur"], "75")
+env_file_updater.update(["pacifist_dur"], "60")
+env_file_updater.update(["shortfall_dur"], "60")
+env_file_updater.update(["ghostjak_dur"], "3")
+env_file_updater.update(["freecam_dur"], "6")
+env_file_updater.update(["noeco_dur"], "10")
+env_file_updater.update(["rocketman_dur"], "5")
+env_file_updater.update(["invertcam_dur"], "150")
+env_file_updater.update(["dark_dur"], "30")
+env_file_updater.update(["dax_dur"], "300")
+env_file_updater.update(["smallnet_dur"], "10")
+env_file_updater.update(["widefish_dur"], "4")
+env_file_updater.update(["lowpoly_dur"], "300")
+env_file_updater.update(["color_dur"], "90")
+env_file_updater.update(["scale_dur"], "30")
+env_file_updater.update(["widejak_dur"], "45")
+env_file_updater.update(["flatjak_dur"], "45")
+env_file_updater.update(["smalljak_dur"], "45")
+env_file_updater.update(["bigjak_dur"], "45")
+env_file_updater.update(["bighead_dur"], "45")
+env_file_updater.update(["smallhead_dur"], "45")
+env_file_updater.update(["bigfist_dur"], "45")
+env_file_updater.update(["bigheadnpc_dur"], "45")
+env_file_updater.update(["hugehead_dur"], "45")
+env_file_updater.update(["mirror_dur"], "45")
+env_file_updater.update(["notex_dur"], "45")
 
 if __name__ == "__main__":
     root = tk.Tk()
