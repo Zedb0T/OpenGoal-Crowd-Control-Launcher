@@ -31,6 +31,9 @@ class App(tk.Frame):
 
         self.save_button = tk.Button(self, text="Save", command=self.save)
         self.save_button.grid(row=row + (int(len(self.env_values.items()))), column=col - 1, columnspan=2, sticky="e")
+		
+        self.save_and_exit_button = tk.Button(self, text="Save and Exit", command=self.save_and_exit)
+        self.save_and_exit_button.grid(row=row+1, column=col, columnspan=2, sticky="e")
 
     def save(self):
         new_env_values = {}
@@ -40,6 +43,10 @@ class App(tk.Frame):
         with open(self.env_file_path, "w") as f:
             for key, value in new_env_values.items():
                 f.write(f"{key}={value}\n")
+				
+    def save_and_exit(self):
+       self.save()
+       self.master.destroy()
 
 
 if __name__ == "__main__":
