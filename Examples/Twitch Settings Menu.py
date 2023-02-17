@@ -1,6 +1,7 @@
 import tkinter as tk
 import os
 from dotenv import dotenv_values
+from EnvFileUpdater import EnvFileUpdater
 
 
 class App(tk.Frame):
@@ -62,6 +63,16 @@ class App(tk.Frame):
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
 env_dir = os.path.join(parent_dir, "env", "twitch_settings.env")
+
+#Add fields if they do not exist
+env_file_updater = EnvFileUpdater(env_dir)
+env_file_updater.update(["OAUTH"], "oauth:qxbi1u1zx1cdsasfnkldj69i7yo9okk")
+env_file_updater.update(["TARGET_CHANNEL"], "bikegamepro")
+env_file_updater.update(["PREFIX"], "#")
+env_file_updater.update(["CONNECT_MSG"], "Successfully connected to Channel! peepoHappy")
+env_file_updater.update(["PROTECT_SACRIFICE"], "#t")
+env_file_updater.update(["SACRIFICE_DURATION"], "300")
+
 
 if __name__ == "__main__":
     root = tk.Tk()

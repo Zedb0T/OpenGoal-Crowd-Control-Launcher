@@ -42,7 +42,7 @@ class App(tk.Tk):
 
     def run_script1(self):
         subprocess.run(["python", "path/to/script1.py"])
-        print(bg_path)
+        #print(bg_path)
 
     def run_script2(self):
         subprocess.run(["python", "Settings Main Menu.py"])
