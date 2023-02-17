@@ -3,8 +3,17 @@ import os
 from tkinter import ttk
 from PIL import Image, ImageTk
 import subprocess
+import sys
 
+
+def get_path(filename):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, filename)
+    else:
+        return filename
+        
 class App(tk.Tk):
+
     def __init__(self, icon_path, bg_path):
         super().__init__()
         self.icon_path = icon_path
@@ -19,7 +28,7 @@ class App(tk.Tk):
         self.tk.call('wm', 'iconphoto', self._w, self.icon)
 
         # Set the background image
-        self.bg_image = ImageTk.PhotoImage(Image.open(self.bg_path).resize((800, 450), Image.ANTIALIAS))
+        self.bg_image = ImageTk.PhotoImage(Image.open(self.bg_path).resize((800, 450), Image.Resampling.LANCZOS))
         self.bg_label = tk.Label(self, image=self.bg_image)
         self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -33,6 +42,7 @@ class App(tk.Tk):
 
     def run_script1(self):
         subprocess.run(["python", "path/to/script1.py"])
+        print(bg_path)
 
     def run_script2(self):
         subprocess.run(["python", "Settings Main Menu.py"])
@@ -40,15 +50,23 @@ class App(tk.Tk):
     def run_script3(self):
         self.destroy()
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
-images_dir = os.path.join(parent_dir, "Images")
 
-icon_path = os.path.join(images_dir, "appicon.ico")
-bg_path = os.path.join(images_dir, "Launcher_BG.png")
+
+if getattr(sys, "frozen", False):
+    # If we are a pyinstaller exe get the path of this file, not python
+    fileRoot = sys._MEIPASS
+else:
+    # if we are running the .py directly use this path
+    fileRoot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) 
+    
+images_dir = os.path.join(fileRoot, "Images") 
+
+icon_path = get_path(os.path.join(images_dir, "appicon.ico"))
+bg_path = get_path(os.path.join(images_dir, "Launcher_BG.png"))
 
 # ...
 
 if __name__ == "__main__":
     app = App(icon_path=icon_path, bg_path=bg_path)
+    
     app.mainloop()
