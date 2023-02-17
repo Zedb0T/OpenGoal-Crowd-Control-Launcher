@@ -8,7 +8,7 @@ a = Analysis(
     ['Examples\\Crowd Control Main Menu.py'],
     pathex=[],
     binaries=[],
-    datas=[('Images\\yummy.png', '.')],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -41,5 +41,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='Images\\appicon.ico',
+    icon='Images\\appicon.ico;. ',
 )
