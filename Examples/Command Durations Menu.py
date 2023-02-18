@@ -1,8 +1,19 @@
 import os
+import sys
 import tkinter as tk
 from dotenv import dotenv_values
 from EnvFileUpdater import EnvFileUpdater
 import subprocess
+
+if getattr(sys, "frozen", False):
+    # If we are a pyinstaller exe get the path of this file, not python
+    fileRoot = sys._MEIPASS
+else:
+    # if we are running the .py directly use this path
+    fileRoot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) 
+
+og_dir = os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl","")
+
 
 class App(tk.Frame):
     def __init__(self, master=None, env_file_path=None):
@@ -54,54 +65,22 @@ class App(tk.Frame):
                 f.write(f"{key}={value}\n")
 				
     def save_and_exit(self):
-       self.save()
-       self.master.destroy()
-       subprocess.run(["python", "Settings Main Menu.py"])
-       
+        self.save()
+        self.master.destroy()
+        settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
+        if getattr(sys, "frozen", False):
+            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
+        subprocess.run(["python", settings_path])
+
     def exit_program(self):
         self.master.destroy()
-        subprocess.run(["python", "Settings Main Menu.py"])
+        settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
+        if getattr(sys, "frozen", False):
+            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
+        subprocess.run(["python", settings_path])
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
+parent_dir = og_dir
 env_dir = os.path.join(parent_dir, "env", "command_durations.env")
-
-#Add fields if they do not exist
-env_file_updater = EnvFileUpdater(env_dir)
-env_file_updater.update(["ACTIVATE_MSG"], "#t")
-env_file_updater.update(["protect_dur"], "60")
-env_file_updater.update(["superjump_dur"], "60")
-env_file_updater.update(["noboosteds_dur"], "180")
-env_file_updater.update(["superboosted_dur"], "180")
-env_file_updater.update(["fastjak_dur"], "90")
-env_file_updater.update(["slowjak_dur"], "45")
-env_file_updater.update(["slippery_dur"], "75")
-env_file_updater.update(["pacifist_dur"], "60")
-env_file_updater.update(["shortfall_dur"], "60")
-env_file_updater.update(["ghostjak_dur"], "3")
-env_file_updater.update(["freecam_dur"], "6")
-env_file_updater.update(["noeco_dur"], "10")
-env_file_updater.update(["rocketman_dur"], "5")
-env_file_updater.update(["invertcam_dur"], "150")
-env_file_updater.update(["dark_dur"], "30")
-env_file_updater.update(["dax_dur"], "300")
-env_file_updater.update(["smallnet_dur"], "10")
-env_file_updater.update(["widefish_dur"], "4")
-env_file_updater.update(["lowpoly_dur"], "300")
-env_file_updater.update(["color_dur"], "90")
-env_file_updater.update(["scale_dur"], "30")
-env_file_updater.update(["widejak_dur"], "45")
-env_file_updater.update(["flatjak_dur"], "45")
-env_file_updater.update(["smalljak_dur"], "45")
-env_file_updater.update(["bigjak_dur"], "45")
-env_file_updater.update(["bighead_dur"], "45")
-env_file_updater.update(["smallhead_dur"], "45")
-env_file_updater.update(["bigfist_dur"], "45")
-env_file_updater.update(["bigheadnpc_dur"], "45")
-env_file_updater.update(["hugehead_dur"], "45")
-env_file_updater.update(["mirror_dur"], "45")
-env_file_updater.update(["notex_dur"], "45")
-
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("+{}+{}".format(root.winfo_screenwidth() // 2 - 200, root.winfo_screenheight() // 2 - 150))

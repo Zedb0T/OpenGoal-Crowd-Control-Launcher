@@ -4,6 +4,10 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import subprocess
 import sys
+from EnvFileUpdater import EnvFileChecker
+#root data folder is 
+#appdata_dir = os.getenv("APPDATA")
+og_dir = os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl","")
 
 
 def get_path(filename):
@@ -11,11 +15,27 @@ def get_path(filename):
         return os.path.join(sys._MEIPASS, filename)
     else:
         return filename
-        
+    
+def init():
+    paths_to_check = ["env/command_enabled.env",
+                      "env/command_durations.env",
+                      "env/command_cooldowns.env",
+                      "env/twitch_settings.env",
+                      "env/unused.env"]
+    for path in paths_to_check:
+        checker = EnvFileChecker(path)
+        checker.check_or_create()
+    
+    checker.addENVtwitchSettings()
+    checker.addENVcommandDurations()
+    checker.addENVcommandEnabled()
+    checker.addENVcommandCooldown()
+
 class App(tk.Tk):
     
     def __init__(self, icon_path, bg_path):
         super().__init__()
+        init()
         self.icon_path = icon_path
         self.bg_path = bg_path
         self.title("Jak and Daxter Crowd Control Launcher")
@@ -72,12 +92,17 @@ class App(tk.Tk):
 
 
     def run_script1(self):
-        subprocess.run(["python", "path/to/script1.py"])
-        #print(bg_path)
+        script1_path = os.path.join(fileRoot, "path/to/script1.py")
+        if getattr(sys, "frozen", False):
+            script1_path = os.path.join(sys._MEIPASS, "path/to/script1.py")
+        subprocess.run(["python", script1_path])
 
     def run_script2(self):
         self.destroy()
-        subprocess.run(["python", "Settings Main Menu.py"])
+        settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
+        if getattr(sys, "frozen", False):
+            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
+        subprocess.run(["python", settings_path])
         
 
     def run_script3(self):

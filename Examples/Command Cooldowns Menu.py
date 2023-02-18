@@ -1,7 +1,18 @@
 import os
+import sys
 import tkinter as tk
 from dotenv import dotenv_values
 import subprocess
+
+if getattr(sys, "frozen", False):
+    # If we are a pyinstaller exe get the path of this file, not python
+    fileRoot = sys._MEIPASS
+else:
+    # if we are running the .py directly use this path
+    fileRoot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) 
+
+og_dir = os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl","")
+
 
 class App(tk.Frame):
     def __init__(self, master=None, env_file_path=None):
@@ -53,16 +64,21 @@ class App(tk.Frame):
                 f.write(f"{key}={value}\n")
                 
     def save_and_exit(self):
-       self.save()
-       self.master.destroy()
-       subprocess.run(["python", "Settings Main Menu.py"])
-       
+        self.save()
+        self.master.destroy()
+        settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
+        if getattr(sys, "frozen", False):
+            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
+        subprocess.run(["python", settings_path])
+
     def exit_program(self):
         self.master.destroy()
-        subprocess.run(["python", "Settings Main Menu.py"])
+        settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
+        if getattr(sys, "frozen", False):
+            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
+        subprocess.run(["python", settings_path])
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
+parent_dir = og_dir
 env_dir = os.path.join(parent_dir, "env", "command_cooldowns.env")
 
 if __name__ == "__main__":

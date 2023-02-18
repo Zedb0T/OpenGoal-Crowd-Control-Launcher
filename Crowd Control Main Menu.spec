@@ -8,7 +8,7 @@ a = Analysis(
     ['Examples\\Crowd Control Main Menu.py'],
     pathex=[],
     binaries=[],
-    datas=[('Images', 'Images/'), ('Images\\Launcher_BG.png', '.')],
+    datas=[('Images', 'Images/'), ('Examples', 'Examples/'), ('Images\\Launcher_BG.png', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
