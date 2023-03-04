@@ -8,6 +8,20 @@ from EnvFileUpdater import EnvFileChecker
 
 
 
+def get_parent_directory():
+    """Returns the parent directory of the script or the app data location of the system if it's a PyInstaller exe,
+    but if it contains the word "Release" in its path it returns the location of the PyInstaller exe."""
+    if getattr(sys, 'frozen', False):
+        # The application is a PyInstaller executable.
+        if "Release" in sys.executable:
+            return os.path.dirname(sys.executable)
+        else:
+            return os.path.abspath(os.path.join(os.path.dirname(sys.executable), os.pardir))
+    else:
+        # The script is being run in a Python interpreter.
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+    
+parent_dir = get_parent_directory()
 
 
 
