@@ -34,7 +34,7 @@ DEL /S /Q "%mypath%/Enabled Commands Menu.spec"
 
 pyinstaller --onefile --noconsole "Examples/Settings Main Menu.py"  --icon Images\appicon.ico --add-data "Images;Images/" --add-data "Images\Launcher_BG.png;." 
 mkdir "%mypath%\Release\"
-move "%mypath%dist\Settings Main Menu.exe" "%mypath%\Release\"
+move "%mypath%dist\Settings Main Menu.exe" "%mypath%\Release\bin"
 RENAME "%mypath%\Settings Main Menu.exe" "Settings Main Menu.exe"
 @RD /S /Q "%mypath%/build"
 @RD /S /Q "%mypath%/dist"
@@ -48,4 +48,4 @@ RENAME "%mypath%\Twitch Settings Menu.exe" "Twitch Settings Menu.exe"
 DEL /S /Q "%mypath%/Twitch Settings Menu.spec"
 
 
-start wmplayer.exe /play /close "%mypath%\Unpackaged Resources\ok.mp3"
+python "%mypath%/Examples/Move Goal FIles to release.py"
