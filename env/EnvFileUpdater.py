@@ -47,7 +47,8 @@ class EnvFileChecker:
                 #env_file.write("VAR2=value2\n")
                 print("Created a new .env file at", env_file_path)
         else:
-            print("Found an existing .env file at", env_file_path)
+            #print("Found an existing .env file at", env_file_path)
+            None
             
     def addENVtwitchSettings(self):
         #Add fields if they do not exist

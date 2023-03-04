@@ -5,6 +5,16 @@ from PIL import Image, ImageTk
 import subprocess
 import sys
 from EnvFileUpdater import EnvFileChecker
+
+
+
+
+
+
+print(os.getcwd())
+#hack
+
+
 #root data folder is 
 #appdata_dir = os.getenv("APPDATA")
 og_dir = os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl","")
@@ -43,7 +53,6 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.configure(background='white')
         self.state = "normal"  # keep track of the current state of the window
-
         # Set the window icon
         self.icon = ImageTk.PhotoImage(Image.open(self.icon_path))
         self.tk.call('wm', 'iconphoto', self._w, self.icon)
@@ -54,15 +63,17 @@ class App(tk.Tk):
         self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
         # Add the buttons
-        self.button1 = ttk.Button(self, text="Launch Game", command=self.run_script1, width=15)
+        self.button1 = ttk.Button(self, text="Launch Game", command=self.run_Game, width=15)
         self.button1.place(relx=0.5, rely=0.35, anchor="center")
-        self.button2 = ttk.Button(self, text="Settings", command=self.run_script2, width=15)
+        self.button2 = ttk.Button(self, text="Settings", command=self.run_SettingsMenu, width=15)
         self.button2.place(relx=0.5, rely=0.5, anchor="center")
-        self.button3 = ttk.Button(self, text="Exit", command=self.run_script3, width=15)
+        self.button3 = ttk.Button(self, text="Exit", command=self.run_Exit, width=15)
         self.button3.place(relx=0.5, rely=0.65, anchor="center")
 
         # Bind the F12 key to the toggle_fullscreen method
         self.bind("<F12>", self.toggle_fullscreen)
+
+
 
     def toggle_fullscreen(self, event=None):
         if self.state == "normal":
@@ -91,21 +102,19 @@ class App(tk.Tk):
             self.bg_label.config(image=self.bg_image)
 
 
-    def run_script1(self):
-        script1_path = os.path.join(fileRoot, "path/to/script1.py")
-        if getattr(sys, "frozen", False):
-            script1_path = os.path.join(sys._MEIPASS, "path/to/script1.py")
-        subprocess.run(["python", script1_path])
+    def run_Game(self):
+        settings_windowObj = settings_windowObj
+        settings_window = settings_windowObj.get_settings_window()
+        settings_window.mainloop()
 
-    def run_script2(self):
+
+    def run_SettingsMenu(self):
         self.destroy()
         settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
-        if getattr(sys, "frozen", False):
-            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
         subprocess.run(["python", settings_path])
         
 
-    def run_script3(self):
+    def run_Exit(self):
         self.destroy()
 
 

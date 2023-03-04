@@ -77,7 +77,7 @@ class App(tk.Frame):
         self.master.destroy()
         settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
         if getattr(sys, "frozen", False):
-            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu)
+            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
         subprocess.run(["python", settings_path])
 
 parent_dir = og_dir
