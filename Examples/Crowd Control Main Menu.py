@@ -6,40 +6,27 @@ import subprocess
 import sys
 from EnvFileUpdater import EnvFileChecker
 
-
+global run_Type
 
 def get_parent_directory():
-    """Returns the parent directory of the script or the app data location of the system if it's a PyInstaller exe,
-    but if it contains the word "Release" in its path it returns the location of the PyInstaller exe."""
+    run_Type = ""
     if getattr(sys, 'frozen', False):
-        # The application is a PyInstaller executable.
         if "Release" in sys.executable:
-            return os.path.dirname(sys.executable)
+            run_Type = "ReleaseDIR"
+            return os.path.dirname(os.path.dirname(sys.executable)), run_Type
         else:
-            return os.path.abspath(os.path.join(os.path.dirname(sys.executable), os.pardir))
+            run_Type = "AppdataDIR"
+            return os.path.abspath(os.path.join(os.path.dirname(sys.executable), os.pardir)), run_Type
     else:
-        # The script is being run in a Python interpreter.
-        return os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+        run_Type= "ScriptDIR"
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), run_Type
     
-parent_dir = get_parent_directory()
+parent_dir, run_Type = get_parent_directory()
 
 
 
-print(os.getcwd())
-#hack
 
 
-#root data folder is 
-#appdata_dir = os.getenv("APPDATA")
-og_dir = os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl","")
-
-
-def get_path(filename):
-    if hasattr(sys, "_MEIPASS"):
-        return os.path.join(sys._MEIPASS, filename)
-    else:
-        return filename
-    
 def init():
     paths_to_check = ["env/command_enabled.env",
                       "env/command_durations.env",
@@ -123,14 +110,28 @@ class App(tk.Tk):
 
 
     def run_SettingsMenu(self):
-        self.destroy()
-        settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
-        subprocess.run(["python", settings_path])
         
+        if run_Type == "ReleaseDIR":
+            self.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+            
+        if run_Type == "AppdataDIR":
+            #TODO
+            self.destroy()
+        
+        if run_Type == "ScriptDIR":
+            self.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Settings Main Menu.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
+
+
+                  
 
     def run_Exit(self):
         self.destroy()
-
 
 
 if getattr(sys, "frozen", False):
@@ -141,9 +142,8 @@ else:
     fileRoot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) 
     
 images_dir = os.path.join(fileRoot, "Images") 
-
-icon_path = get_path(os.path.join(images_dir, "appicon.ico"))
-bg_path = get_path(os.path.join(images_dir, "Launcher_BG.png"))
+icon_path = os.path.join(images_dir, "appicon.ico")
+bg_path = os.path.join(images_dir, "Launcher_BG.png")
 
 # ...
 

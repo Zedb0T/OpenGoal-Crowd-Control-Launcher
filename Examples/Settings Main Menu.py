@@ -1,16 +1,25 @@
 import os
 import sys
 import tkinter as tk
+from tkinter import ttk
 import subprocess
 
-if getattr(sys, "frozen", False):
-    # If we are a pyinstaller exe get the path of this file, not python
-    fileRoot = sys._MEIPASS
-else:
-    # if we are running the .py directly use this path
-    fileRoot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) 
+global run_Type
 
-og_dir = os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl","")
+def get_parent_directory():
+    run_Type = ""
+    if getattr(sys, 'frozen', False):
+        if "Release" in sys.executable:
+            run_Type = "ReleaseDIR"
+            return os.path.dirname(os.path.dirname(sys.executable)), run_Type
+        else:
+            run_Type = "AppdataDIR"
+            return os.path.abspath(os.path.join(os.path.dirname(sys.executable), os.pardir)), run_Type
+    else:
+        run_Type= "ScriptDIR"
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), run_Type
+    
+parent_dir, run_Type = get_parent_directory()
 
 
 class App(tk.Frame):
@@ -28,42 +37,111 @@ class App(tk.Frame):
 
         font = ('Helvetica', 10, "bold")
 
-        self.button1 = tk.Button(self, text="Twitch Settings", command=lambda: self.run_script("Twitch Settings Menu.py"), width=20, font=font)
+        self.button1 = ttk.Button(self, text="Twitch Settings", command=self.run_TwitchSettings, width=20)
         self.button1.grid(row=0, column=0, padx=5, pady=5)
 
-        self.button2 = tk.Button(self, text="Enabled Commands", command=lambda: self.run_script("Enabled Commands Menu.py"), width=20, font=font)
+        self.button2 = ttk.Button(self, text="Enabled Commands", command=self.run_EnabledCommands, width=20)
         self.button2.grid(row=0, column=1, padx=5, pady=5)
 
-        self.button3 = tk.Button(self, text="Command Cooldowns", command=lambda: self.run_script("Command Cooldowns Menu.py"), width=20, font=font)
+        self.button3 = ttk.Button(self, text="Command Cooldowns", command=self.run_CommandCooldowns, width=20)
         self.button3.grid(row=1, column=0, padx=5, pady=5)
 
-        self.button4 = tk.Button(self, text="Command Durations", command=lambda: self.run_script("Command Durations Menu.py"), width=20, font=font)
+        self.button4 = ttk.Button(self, text="Command Durations", command=self.run_CommandDurations, width=20)
         self.button4.grid(row=1, column=1, padx=5, pady=5)
         
         self.button5 = tk.Button(self, text="Exit", command=self.exit_program, width=10, font=font)
         self.button5.grid(row=2, column=1, padx=5, pady=5)
 
-    def run_script(self, script_path):
-        self.master.destroy()
-        if getattr(sys, 'frozen', False):
-            script_path = os.path.join(sys._MEIPASS,  os.path.basename(script_path))
-            # Get the temporary directory of the PyInstaller executable
-            temp_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(sys.argv[0])))
-            # Look for directories within the temporary directory
-            examples_dir = os.path.join(temp_dir)
-            print("AHHHHH " + examples_dir)
-        else:
-            examples_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-            print("AHHHHH " +examples_dir)
-        subprocess.run(["python", script_path], cwd=examples_dir)
 
+    def run_TwitchSettings(self):
         
+        if run_Type == "ReleaseDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Twitch Settings Menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+            
+        if run_Type == "AppdataDIR":
+            #TODO
+            self.master.destroy()
+        
+        if run_Type == "ScriptDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Twitch Settings Menu.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
+    
+    def run_EnabledCommands(self):
+        
+        if run_Type == "ReleaseDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Enabled Commands Menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+            
+        if run_Type == "AppdataDIR":
+            #TODO
+            self.master.destroy()
+        
+        if run_Type == "ScriptDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Enabled Commands Menu.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
+
+    def run_CommandCooldowns(self):
+        
+        if run_Type == "ReleaseDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Command Cooldowns menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+            
+        if run_Type == "AppdataDIR":
+            #TODO
+            self.master.destroy()
+        
+        if run_Type == "ScriptDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Command Cooldowns menu.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
+    
+    def run_CommandDurations(self):
+        
+        if run_Type == "ReleaseDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Command Durations menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+            
+        if run_Type == "AppdataDIR":
+            #TODO
+            self.master.destroy()
+        
+        if run_Type == "ScriptDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Command Durations menu.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
+
     def exit_program(self):
-        self.master.destroy()
-        main_menu_path = os.path.join(fileRoot, "Examples", "Crowd Control Main Menu.py")
-        if getattr(sys, "frozen", False):
-            main_menu_path = os.path.join(sys._MEIPASS, "Examples", "Crowd Control Main Menu.py")
-        subprocess.run(["python", main_menu_path])
+
+        if run_Type == "ReleaseDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Crowd Control Main Menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+            
+        if run_Type == "AppdataDIR":
+            #TODO
+            self.master.destroy()
+        
+        if run_Type == "ScriptDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Crowd Control Main Menu.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
 
 if __name__ == "__main__":
     root = tk.Tk()
