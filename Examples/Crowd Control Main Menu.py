@@ -41,6 +41,7 @@ def init():
     checker.addENVcommandDurations()
     checker.addENVcommandEnabled()
     checker.addENVcommandCooldown()
+    checker.addENVcommandUnused()
 
 class App(tk.Tk):
     
