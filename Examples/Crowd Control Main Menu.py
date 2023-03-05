@@ -104,23 +104,28 @@ class App(tk.Tk):
 
 
     def run_Game(self):
-        settings_windowObj = settings_windowObj
-        settings_window = settings_windowObj.get_settings_window()
-        settings_window.mainloop()
-
-
-    def run_SettingsMenu(self):
-        
-        if run_Type == "ReleaseDIR":
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
             self.destroy()
             settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
-            
-        if run_Type == "AppdataDIR":
-            #TODO
+
+        if run_Type == "ScriptDIR":
             self.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Run_Crowd_Control_Game.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
+
+
+
+    def run_SettingsMenu(self):
         
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
+            self.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+
         if run_Type == "ScriptDIR":
             self.destroy()
             settings_path = os.path.join(parent_dir, "Examples", "Settings Main Menu.py")

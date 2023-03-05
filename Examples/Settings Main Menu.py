@@ -55,16 +55,13 @@ class App(tk.Frame):
 
     def run_TwitchSettings(self):
         
-        if run_Type == "ReleaseDIR":
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "bin", "Twitch Settings Menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
             
-        if run_Type == "AppdataDIR":
-            #TODO
-            self.master.destroy()
-        
+
         if run_Type == "ScriptDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "Examples", "Twitch Settings Menu.py")
@@ -73,16 +70,13 @@ class App(tk.Frame):
     
     def run_EnabledCommands(self):
         
-        if run_Type == "ReleaseDIR":
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "bin", "Enabled Commands Menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
             
-        if run_Type == "AppdataDIR":
-            #TODO
-            self.master.destroy()
-        
+
         if run_Type == "ScriptDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "Examples", "Enabled Commands Menu.py")
@@ -91,16 +85,12 @@ class App(tk.Frame):
 
     def run_CommandCooldowns(self):
         
-        if run_Type == "ReleaseDIR":
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "bin", "Command Cooldowns menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
-            
-        if run_Type == "AppdataDIR":
-            #TODO
-            self.master.destroy()
-        
+   
         if run_Type == "ScriptDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "Examples", "Command Cooldowns menu.py")
@@ -109,16 +99,12 @@ class App(tk.Frame):
     
     def run_CommandDurations(self):
         
-        if run_Type == "ReleaseDIR":
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "bin", "Command Durations menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
-            
-        if run_Type == "AppdataDIR":
-            #TODO
-            self.master.destroy()
-        
+     
         if run_Type == "ScriptDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "Examples", "Command Durations menu.py")
@@ -127,16 +113,13 @@ class App(tk.Frame):
 
     def exit_program(self):
 
-        if run_Type == "ReleaseDIR":
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "bin", "Crowd Control Main Menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
             
-        if run_Type == "AppdataDIR":
-            #TODO
-            self.master.destroy()
-        
+  
         if run_Type == "ScriptDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "Examples", "Crowd Control Main Menu.py")

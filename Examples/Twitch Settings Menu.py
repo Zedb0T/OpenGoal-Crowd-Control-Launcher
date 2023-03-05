@@ -77,16 +77,12 @@ class App(tk.Frame):
 
     def save_and_exit(self):
         self.save()
-        if run_Type == "ReleaseDIR":
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
-            
-        if run_Type == "AppdataDIR":
-            #TODO
-            self.master.destroy()
-        
+
         if run_Type == "ScriptDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "Examples", "Settings Main Menu.py")
@@ -94,16 +90,13 @@ class App(tk.Frame):
             subprocess.run(["python", settings_path])
 
     def exit_program(self):
-        if run_Type == "ReleaseDIR":
+        if run_Type == "ReleaseDIR" or run_Type == "AppdataDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
             
-        if run_Type == "AppdataDIR":
-            #TODO
-            self.master.destroy()
-        
+   
         if run_Type == "ScriptDIR":
             self.master.destroy()
             settings_path = os.path.join(parent_dir, "Examples", "Settings Main Menu.py")
