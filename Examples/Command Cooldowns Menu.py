@@ -75,7 +75,7 @@ class App(tk.Frame):
         self.save()
         if run_Type == "ReleaseDIR":
             self.master.destroy()
-            settings_path = os.path.join(parent_dir, "bin", "Crowd Control Main Menu.exe")
+            settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
             
@@ -85,14 +85,14 @@ class App(tk.Frame):
         
         if run_Type == "ScriptDIR":
             self.master.destroy()
-            settings_path = os.path.join(parent_dir, "Examples", "Crowd Control Main Menu.py")
+            settings_path = os.path.join(parent_dir, "Examples", "Settings Main Menu.py")
             print(settings_path)
             subprocess.run(["python", settings_path])
 
     def exit_program(self):
         if run_Type == "ReleaseDIR":
             self.master.destroy()
-            settings_path = os.path.join(parent_dir, "bin", "Crowd Control Main Menu.exe")
+            settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
             print(settings_path)
             subprocess.run([settings_path])
             
@@ -102,7 +102,7 @@ class App(tk.Frame):
         
         if run_Type == "ScriptDIR":
             self.master.destroy()
-            settings_path = os.path.join(parent_dir, "Examples", "Crowd Control Main Menu.py")
+            settings_path = os.path.join(parent_dir, "Examples", "Settings Main Menu.py")
             print(settings_path)
             subprocess.run(["python", settings_path])
 

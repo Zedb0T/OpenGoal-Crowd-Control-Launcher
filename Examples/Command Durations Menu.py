@@ -5,14 +5,23 @@ from dotenv import dotenv_values
 from EnvFileUpdater import EnvFileUpdater
 import subprocess
 
-if getattr(sys, "frozen", False):
-    # If we are a pyinstaller exe get the path of this file, not python
-    fileRoot = sys._MEIPASS
-else:
-    # if we are running the .py directly use this path
-    fileRoot = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) 
+global run_Type
 
-og_dir = os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl","")
+def get_parent_directory():
+    run_Type = ""
+    if getattr(sys, 'frozen', False):
+        if "Release" in sys.executable:
+            run_Type = "ReleaseDIR"
+            return os.path.dirname(os.path.dirname(sys.executable)), run_Type
+        else:
+            run_Type = "AppdataDIR"
+            return os.path.abspath(os.path.join(os.path.dirname(sys.executable), os.pardir)), run_Type
+    else:
+        run_Type= "ScriptDIR"
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), run_Type
+    
+parent_dir, run_Type = get_parent_directory()
+appdata_dir = os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl","")
 
 
 class App(tk.Frame):
@@ -66,21 +75,41 @@ class App(tk.Frame):
 				
     def save_and_exit(self):
         self.save()
-        self.master.destroy()
-        settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
-        if getattr(sys, "frozen", False):
-            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
-        subprocess.run(["python", settings_path])
+        if run_Type == "ReleaseDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+            
+        if run_Type == "AppdataDIR":
+            #TODO
+            self.master.destroy()
+        
+        if run_Type == "ScriptDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Settings Main Menu.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
 
     def exit_program(self):
-        self.master.destroy()
-        settings_path = os.path.join(fileRoot, "Examples", "Settings Main Menu.py")
-        if getattr(sys, "frozen", False):
-            settings_path = os.path.join(sys._MEIPASS, "Examples", "Settings Main Menu.py")
-        subprocess.run(["python", settings_path])
+        if run_Type == "ReleaseDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "bin", "Settings Main Menu.exe")
+            print(settings_path)
+            subprocess.run([settings_path])
+            
+        if run_Type == "AppdataDIR":
+            #TODO
+            self.master.destroy()
+        
+        if run_Type == "ScriptDIR":
+            self.master.destroy()
+            settings_path = os.path.join(parent_dir, "Examples", "Settings Main Menu.py")
+            print(settings_path)
+            subprocess.run(["python", settings_path])
 
-parent_dir = og_dir
-env_dir = os.path.join(parent_dir, "env", "command_durations.env")
+
+env_dir = os.path.join(appdata_dir, "env", "command_durations.env")
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("+{}+{}".format(root.winfo_screenwidth() // 2 - 200, root.winfo_screenheight() // 2 - 150))
