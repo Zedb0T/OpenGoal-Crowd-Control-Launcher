@@ -16,7 +16,7 @@ def get_parent_directory():
             return os.path.dirname(os.path.dirname(sys.executable)), run_Type
         else:
             run_Type = "AppdataDIR"
-            return os.path.abspath(os.path.join(os.path.dirname(sys.executable), os.pardir)), run_Type
+            return os.path.join(os.getenv("APPDATA"), "OpenGOAL-CrowdControl",""), run_Type
     else:
         run_Type= "ScriptDIR"
         return os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), run_Type
